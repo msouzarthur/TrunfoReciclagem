@@ -55,6 +55,9 @@ public class Arena extends javax.swing.JFrame {
         ImageIcon fundoMesa = new ImageIcon("src/img/mesaFundo.png");
         fundoMesa.setImage(fundoMesa.getImage().getScaledInstance(850, 400, 1));
         layoutMesa.setIcon(fundoMesa);
+        ImageIcon fundoModo = new ImageIcon("src/img/modoJogo.png");
+        fundoModo.setImage(fundoModo.getImage().getScaledInstance(200, 60, 1));
+        fundoModoJogo.setIcon(fundoModo);
 
         //ATUALIZA O CONTADOR//
         contadorRodadas.setText(Integer.toString(contadorRodada));
@@ -182,12 +185,14 @@ public class Arena extends javax.swing.JFrame {
                         if (cartasDaRodada.get(vencedor).comparaDecomposicao(cartasDaRodada.get(i)) == -1) {
                             vencedor = i;
                             empate = false;
+                            exibeModoJogo.setText("DECOMPOSIÇÃO");
                         }
                     }
                     for (i = 0; i < jogadores.size(); i++) {                    //testa se nao ha empate na menor decomposicao com as cartas da mesa
                         if (vencedor != i) {                                    //se nao for a carta vencedora com ela mesma, existe um empate
                             if (cartasDaRodada.get(vencedor).comparaDecomposicao(cartasDaRodada.get(i)) == 0) {
                                 empate = true;
+                                exibeModoJogo.setText("DEC | EMPATE");
                             }
                         }
                     }
@@ -198,12 +203,14 @@ public class Arena extends javax.swing.JFrame {
                         if (cartasDaRodada.get(vencedor).comparaReciclavel(cartasDaRodada.get(i)) == -1) {
                             vencedor = i;
                             empate = false;
+                            exibeModoJogo.setText("RECICLABILIDADE");
                         }
                     }
                     for (i = 0; i < jogadores.size(); i++) {                    //testa se nao tem mais de uma reciclavel na mesa
                         if (vencedor != i) {                                    //se nao for ela mesma, existe um empate
                             if (cartasDaRodada.get(vencedor).comparaReciclavel(cartasDaRodada.get(i)) == 0) {
                                 empate = true;
+                                exibeModoJogo.setText("REC - EMPATE");
                             }
                         }
                     }
@@ -214,6 +221,8 @@ public class Arena extends javax.swing.JFrame {
                         if (cartasDaRodada.get(vencedor).comparaAtaque(cartasDaRodada.get(i)) == -1) {
                             vencedor = i;
                             empate = false;
+                            exibeModoJogo.setText("ATAQUE");
+                            exibeModoJogo.setText("ATAQUE - EMPATE");
                         }
                     }
                     for (i = 0; i < jogadores.size(); i++) {                    //testa se nao tem um ataque igual na mesa
@@ -230,12 +239,14 @@ public class Arena extends javax.swing.JFrame {
                         if (cartasDaRodada.get(vencedor).comparaCor(cartasDaRodada.get(i)) == -1) {
                             vencedor = i;
                             empate = false;
+                            exibeModoJogo.setText("COR");
                         }
                     }
                     for (i = 0; i < jogadores.size(); i++) {                    //testa se nao tem um empate
                         if (vencedor != i) {                                    //se nao for ela mesma, existe um empate
                             if (cartasDaRodada.get(vencedor).comparaCor(cartasDaRodada.get(i)) == 0) {
                                 empate = true;
+                                exibeModoJogo.setText("COR - EMPATE");
                             }
                         }
                     }
@@ -289,7 +300,7 @@ public class Arena extends javax.swing.JFrame {
     }
 
     public void atualizaNumeros(ArrayList<Carta> cartasDaRodada) {
-        contadorCartas.setText(Integer.toString(cartasDaRodada.size()));        //NUMERO DE CARTAS
+        contadorCartas.setText(Integer.toString(cartasDaRodada.size()));                //NUMERO DE CARTAS
         numeroJogador1.setText(Integer.toString(jogadores.get(0).numeroDeCartas()));    //NUMERO JOGADOR 1
         numeroJogador2.setText(Integer.toString(jogadores.get(1).numeroDeCartas()));    //NUMERO JOGADOR 2
         if (jogadores.size() >= 3) {
@@ -323,9 +334,6 @@ public class Arena extends javax.swing.JFrame {
         }
     }
 
-    private void mesa() {
-
-    }
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -336,6 +344,8 @@ public class Arena extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        exibeModoJogo = new javax.swing.JLabel();
+        fundoModoJogo = new javax.swing.JLabel();
         nomeJ4 = new javax.swing.JLabel();
         nomeJ3 = new javax.swing.JLabel();
         nomeJ2 = new javax.swing.JLabel();
@@ -367,6 +377,12 @@ public class Arena extends javax.swing.JFrame {
         setMinimumSize(new java.awt.Dimension(1270, 750));
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
+        exibeModoJogo.setFont(new java.awt.Font("Arial Black", 1, 14)); // NOI18N
+        exibeModoJogo.setForeground(new java.awt.Color(255, 255, 255));
+        exibeModoJogo.setText("MODO DE JOGO");
+        getContentPane().add(exibeModoJogo, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 540, 210, 30));
+        getContentPane().add(fundoModoJogo, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 540, 210, 30));
+
         nomeJ4.setBackground(new java.awt.Color(0, 0, 0));
         nomeJ4.setFont(new java.awt.Font("Tahoma", 1, 15)); // NOI18N
         nomeJ4.setForeground(new java.awt.Color(255, 255, 255));
@@ -390,7 +406,7 @@ public class Arena extends javax.swing.JFrame {
         btnPlay.setBackground(new java.awt.Color(102, 0, 0));
         btnPlay.setFont(new java.awt.Font("Arial Black", 1, 18)); // NOI18N
         btnPlay.setForeground(new java.awt.Color(255, 255, 255));
-        btnPlay.setText("Proxima rodada");
+        btnPlay.setText("próxima rodada");
         btnPlay.setToolTipText("");
         btnPlay.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -408,7 +424,7 @@ public class Arena extends javax.swing.JFrame {
         numeroJogador4.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
         numeroJogador4.setForeground(new java.awt.Color(255, 255, 255));
         numeroJogador4.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        getContentPane().add(numeroJogador4, new org.netbeans.lib.awtextra.AbsoluteConstraints(1100, 420, 30, 40));
+        getContentPane().add(numeroJogador4, new org.netbeans.lib.awtextra.AbsoluteConstraints(1100, 420, 40, 40));
 
         nomeJogador4.setFont(new java.awt.Font("Tahoma", 1, 15)); // NOI18N
         nomeJogador4.setForeground(new java.awt.Color(255, 255, 255));
@@ -464,7 +480,7 @@ public class Arena extends javax.swing.JFrame {
         contadorRodadas.setForeground(new java.awt.Color(255, 255, 255));
         contadorRodadas.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         contadorRodadas.setText("13");
-        getContentPane().add(contadorRodadas, new org.netbeans.lib.awtextra.AbsoluteConstraints(870, 190, 40, -1));
+        getContentPane().add(contadorRodadas, new org.netbeans.lib.awtextra.AbsoluteConstraints(840, 180, 80, 40));
         getContentPane().add(cartaJogador4, new org.netbeans.lib.awtextra.AbsoluteConstraints(790, 190, 232, 345));
         getContentPane().add(cartaJogador3, new org.netbeans.lib.awtextra.AbsoluteConstraints(600, 190, 232, 345));
         getContentPane().add(cartaJogador2, new org.netbeans.lib.awtextra.AbsoluteConstraints(410, 190, 232, 350));
@@ -527,6 +543,8 @@ public class Arena extends javax.swing.JFrame {
     private javax.swing.JLabel cartaJogador4;
     private javax.swing.JLabel contadorCartas;
     private javax.swing.JLabel contadorRodadas;
+    private javax.swing.JLabel exibeModoJogo;
+    private javax.swing.JLabel fundoModoJogo;
     private javax.swing.JLabel layoutArena;
     private javax.swing.JLabel layoutMesa;
     private javax.swing.JLabel nomeJ1;
