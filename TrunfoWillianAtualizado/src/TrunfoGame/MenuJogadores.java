@@ -25,7 +25,7 @@ public class MenuJogadores extends javax.swing.JFrame {
         fundoMenu();
     }
     public void iniciarJogo(){
-        Arena arena = new Arena(numeroPlayers, jogadores);
+        Arena arena = new Arena( jogadores);
         arena.setVisible(true);
         this.dispose();
     }

@@ -9,17 +9,11 @@
 package TrunfoGame;
 
 import static TrunfoGame.SuperTrunfoDaReciclagem.finaliza;
-import static TrunfoGame.SuperTrunfoDaReciclagem.mostrarCartas;
-import static TrunfoGame.SuperTrunfoDaReciclagem.status;
 import static TrunfoGame.SuperTrunfoDaReciclagem.testaCoringas;
-import static TrunfoGame.SuperTrunfoDaReciclagem.testaJogadores;
 import java.awt.Color;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.Random;
 import javax.swing.ImageIcon;
-import javax.swing.JButton;
 
 /**
  *
@@ -27,20 +21,18 @@ import javax.swing.JButton;
  */
 public class Arena extends javax.swing.JFrame {
 
-    private int numeroPlayers;
     private int contadorRodada;
     private ArrayList<Jogador> jogadores;
+    private ArrayList<Carta> cartasDaRodada;
 
     /**
      * Creates new form Arena
      *
-     * @param numeroPlayers
      * @param jogadores
      */
-    public Arena(int numeroPlayers, ArrayList<Jogador> jogadores) {
-        this.numeroPlayers = numeroPlayers;
+    public Arena(ArrayList<Jogador> jogadores) {
         this.jogadores = jogadores;
-        this.contadorRodada = 1;
+        this.contadorRodada = 0;
         initComponents();
         fundoArena();
     }
@@ -67,7 +59,7 @@ public class Arena extends javax.swing.JFrame {
 
     //MOSTRA BARALHO DE CADA JOGADOR //
     private void mostraBaralho() {                                               //Adicionando nomes e nº de cartas do baralho p/ parte grafica
-        int numero = 0;
+        int numero;
 
         nomeJogador1.setText(jogadores.get(0).nome());                          //nome jogador no baralho
         numero = jogadores.get(0).numeroDeCartas();
@@ -88,7 +80,7 @@ public class Arena extends javax.swing.JFrame {
         baralhoEsquerda.setImage(baralhoEsquerda.getImage().getScaledInstance(180, 150, 1));
         baralho2.setIcon(baralhoEsquerda);
 
-        if (numeroPlayers >= 3) {
+        if (jogadores.size() >= 3) {
             //JOGADOR 3 -- Adicionando nomes e nº de cartas do baralho p/ parte grafica
             nomeJogador3.setText(jogadores.get(2).nome());
             numero = jogadores.get(2).numeroDeCartas();
@@ -99,7 +91,7 @@ public class Arena extends javax.swing.JFrame {
             baralhoCima.setImage(baralhoCima.getImage().getScaledInstance(150, 180, 1));
             baralho3.setIcon(baralhoCima);
 
-            if (numeroPlayers == 4) {
+            if (jogadores.size() == 4) {
                 //JOGADOR 4 -- Adicionando nomes e nº de cartas do baralho p/ parte grafica
                 nomeJogador4.setText(jogadores.get(3).nome());
                 numero = jogadores.get(3).numeroDeCartas();
@@ -111,7 +103,6 @@ public class Arena extends javax.swing.JFrame {
                 baralho4.setIcon(baralhoDireita);
             }
         }
-        jogo(jogadores);
     }
 
     public ArrayList<Jogador> testaJogadores(ArrayList<Jogador> jogadores) {
@@ -136,23 +127,26 @@ public class Arena extends javax.swing.JFrame {
         if (jogadores.size() == 4) {
             nomeJ4.setForeground(Color.white);
         }
-        ArrayList<Carta> cartasDaRodada = new ArrayList<Carta>();
-        //Random r = new Random();
-        //int aleatorio = r.nextInt(jogadores.size());
-        int i = 0;
-        for (i = 0; i < jogadores.size(); i++) {
+        //////////LIMPA A MESA E PEGA CARTAS NOVAS/////////////
+        cartasDaRodada = new ArrayList<Carta>();
+        for (int i = 0; i < jogadores.size(); i++) {
             cartasDaRodada.add(jogadores.get(i).excluir());
         }
         ////////////////////ATUALIZACOES///////////////////
-        atualizaNumeros(cartasDaRodada);
+        //atualizaNumeros(cartasDaRodada);
+        atualizaNumeros();
         ///////////////////TESTA AS CARTAS DA MESA/////////
-        testaMesa(cartasDaRodada);
-
-        exibirCartas(cartasDaRodada);
+        //testaMesa(cartasDaRodada);
+        testaMesa();
+        
+        //exibirCartas(cartasDaRodada);
+        exibirCartas();
+        
         jogadores = testaJogadores(jogadores);
     }
 
-    public void testaMesa(ArrayList<Carta> cartasDaRodada) {
+    //public void testaMesa(ArrayList<Carta> cartasDaRodada) {
+    public void testaMesa(){
         Random r = new Random();
         boolean empate = false;
         int i, coringa = 0, vencedor = 0, modoDeJogo = r.nextInt(4);
@@ -181,10 +175,14 @@ public class Arena extends javax.swing.JFrame {
             
             switch (modoDeJogo) {
                 case 0:                                                         //rodada sobre decomposicao
+                    vencedor = 0;
+                    mostrarCartas(0);
                     for (i = 1; i < jogadores.size(); i++) {                    //encontra a menor decomposicao das cartas
                         if (cartasDaRodada.get(vencedor).comparaDecomposicao(cartasDaRodada.get(i)) == -1) {
                             vencedor = i;
                             empate = false;
+                            System.out.println("Decomposicao");
+                            
                             exibeModoJogo.setText("DECOMPOSIÇÃO");
                         }
                     }
@@ -192,6 +190,7 @@ public class Arena extends javax.swing.JFrame {
                         if (vencedor != i) {                                    //se nao for a carta vencedora com ela mesma, existe um empate
                             if (cartasDaRodada.get(vencedor).comparaDecomposicao(cartasDaRodada.get(i)) == 0) {
                                 empate = true;
+                                System.out.println("Decomposicao - empate");
                                 exibeModoJogo.setText("DEC | EMPATE");
                             }
                         }
@@ -199,11 +198,13 @@ public class Arena extends javax.swing.JFrame {
                     break;
                 case 1:                                                         //rodada sobre reciclabilidade
                     vencedor = 0;
+                    mostrarCartas(1);
                     for (i = 1; i < jogadores.size(); i++) {                    //encontra a carta reciclavel
                         if (cartasDaRodada.get(vencedor).comparaReciclavel(cartasDaRodada.get(i)) == -1) {
                             vencedor = i;
                             empate = false;
                             exibeModoJogo.setText("RECICLABILIDADE");
+                            System.out.println("Reciclavel");
                         }
                     }
                     for (i = 0; i < jogadores.size(); i++) {                    //testa se nao tem mais de uma reciclavel na mesa
@@ -211,30 +212,36 @@ public class Arena extends javax.swing.JFrame {
                             if (cartasDaRodada.get(vencedor).comparaReciclavel(cartasDaRodada.get(i)) == 0) {
                                 empate = true;
                                 exibeModoJogo.setText("REC - EMPATE");
+                                System.out.println("Reciclavel - empate");
                             }
                         }
                     }
                     break;
                 case 2:                                                         //rodada de ataque
                     vencedor = 0;
+                    mostrarCartas(2);
                     for (i = 1; i < jogadores.size(); i++) {                    //encontra o maior ataque na mesa
                         if (cartasDaRodada.get(vencedor).comparaAtaque(cartasDaRodada.get(i)) == -1) {
                             vencedor = i;
                             empate = false;
                             exibeModoJogo.setText("ATAQUE");
-                            exibeModoJogo.setText("ATAQUE - EMPATE");
+                            System.out.println("ataque");
+                            
                         }
                     }
                     for (i = 0; i < jogadores.size(); i++) {                    //testa se nao tem um ataque igual na mesa
                         if (vencedor != i) {                                    //se nao for ela mesma, existe um empate
                             if (cartasDaRodada.get(vencedor).comparaAtaque(cartasDaRodada.get(i)) == 0) {
                                 empate = true;
+                                exibeModoJogo.setText("ATAQUE - EMPATE");
+                                System.out.println("ataque empate");
                             }
                         }
                     }
                     break;
                 case 3:                                                         //rodada de cores
                     vencedor = 0;
+                    mostrarCartas(3);
                     for (i = 1; i < jogadores.size(); i++) {                    //pega a cor que ganha das outras
                         if (cartasDaRodada.get(vencedor).comparaCor(cartasDaRodada.get(i)) == -1) {
                             vencedor = i;
@@ -272,7 +279,30 @@ public class Arena extends javax.swing.JFrame {
         atualizaDeck(cartasDaRodada, vencedor);                                  //adiciona as cartas pro vencedor
 
     }
-
+        
+    public void mostrarCartas(int modoDeJogo) {
+        System.out.println("- Cartas na mesa (" + cartasDaRodada.size() + ")");
+        for (int i = 0; i < jogadores.size(); i++) {                            //exibe as cartas de acordo com o modo de jogo selecionado
+            System.out.print("* Carta do " + jogadores.get(i).nome() + ": ");
+            switch (modoDeJogo) {
+                case 0:
+                    System.out.println("Codigo - " + cartasDaRodada.get(i).getCodigo() + ", Decomposicao - " + cartasDaRodada.get(i).getDecomposicao());
+                    break;
+                case 1:
+                    System.out.println("Codigo - " + cartasDaRodada.get(i).getCodigo() + ", Reciclabilidade - " + cartasDaRodada.get(i).ehReciclavel());
+                    break;
+                case 2:
+                    System.out.println("Codigo - " + cartasDaRodada.get(i).getCodigo() + ", Ataque - " + cartasDaRodada.get(i).getAtaque());
+                    break;
+                case 3:
+                    System.out.println("Codigo - " + cartasDaRodada.get(i).getCodigo() + ", Cor - " + cartasDaRodada.get(i).getCor());
+                    break;
+                default:
+                    break;
+            }
+        }
+    }
+    
     public void atualizaVencedor(int vencedor) {
         switch (vencedor) {
             case 0:
@@ -299,7 +329,8 @@ public class Arena extends javax.swing.JFrame {
 
     }
 
-    public void atualizaNumeros(ArrayList<Carta> cartasDaRodada) {
+    //public void atualizaNumeros(ArrayList<Carta> cartasDaRodada) {
+    public void atualizaNumeros(){
         contadorCartas.setText(Integer.toString(cartasDaRodada.size()));                //NUMERO DE CARTAS
         numeroJogador1.setText(Integer.toString(jogadores.get(0).numeroDeCartas()));    //NUMERO JOGADOR 1
         numeroJogador2.setText(Integer.toString(jogadores.get(1).numeroDeCartas()));    //NUMERO JOGADOR 2
@@ -312,7 +343,8 @@ public class Arena extends javax.swing.JFrame {
     }
 
     //  MOSTRA A CARTA DO TOPO DE CADA JOGADOR NA MESA //
-    public void exibirCartas(ArrayList<Carta> cartasDaRodada) {
+    //public void exibirCartas(ArrayList<Carta> cartasDaRodada) {
+    public void exibirCartas(){
         ImageIcon iconeCartaJogador1 = new ImageIcon("src/img/" + cartasDaRodada.get(0).getCodigo() + ".png");
         iconeCartaJogador1.setImage(iconeCartaJogador1.getImage().getScaledInstance(160, 255, 1));
         cartaJogador1.setIcon(iconeCartaJogador1);
@@ -379,6 +411,7 @@ public class Arena extends javax.swing.JFrame {
 
         exibeModoJogo.setFont(new java.awt.Font("Arial Black", 1, 14)); // NOI18N
         exibeModoJogo.setForeground(new java.awt.Color(255, 255, 255));
+        exibeModoJogo.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         exibeModoJogo.setText("MODO DE JOGO");
         getContentPane().add(exibeModoJogo, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 540, 210, 30));
         getContentPane().add(fundoModoJogo, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 540, 210, 30));
@@ -472,14 +505,14 @@ public class Arena extends javax.swing.JFrame {
         contadorCartas.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
         contadorCartas.setForeground(new java.awt.Color(255, 255, 255));
         contadorCartas.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        contadorCartas.setText("12");
+        contadorCartas.setText("0");
         getContentPane().add(contadorCartas, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 180, -1, -1));
 
         contadorRodadas.setBackground(new java.awt.Color(0, 0, 0));
         contadorRodadas.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
         contadorRodadas.setForeground(new java.awt.Color(255, 255, 255));
         contadorRodadas.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        contadorRodadas.setText("13");
+        contadorRodadas.setText("0");
         getContentPane().add(contadorRodadas, new org.netbeans.lib.awtextra.AbsoluteConstraints(840, 180, 80, 40));
         getContentPane().add(cartaJogador4, new org.netbeans.lib.awtextra.AbsoluteConstraints(790, 190, 232, 345));
         getContentPane().add(cartaJogador3, new org.netbeans.lib.awtextra.AbsoluteConstraints(600, 190, 232, 345));
