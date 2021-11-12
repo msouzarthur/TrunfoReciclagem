@@ -20,8 +20,8 @@ import javax.swing.JButton;
  */
 public class Arena extends javax.swing.JFrame {
     private int numeroPlayers;
+    private int contadorRodada;
     private ArrayList<Jogador> jogadores;
-    private boolean click=false;
     /**
      * Creates new form Arena
      * @param numeroPlayers
@@ -30,6 +30,7 @@ public class Arena extends javax.swing.JFrame {
     public Arena(int numeroPlayers, ArrayList<Jogador> jogadores) {
         this.numeroPlayers = numeroPlayers;
         this.jogadores = jogadores;
+        this.contadorRodada = 1;
         initComponents();
         fundoArena();
     }
@@ -44,6 +45,9 @@ public class Arena extends javax.swing.JFrame {
         ImageIcon fundoMesa = new ImageIcon ("src/img/mesaFundo.png");
         fundoMesa.setImage(fundoMesa.getImage().getScaledInstance(850,400, 1));
         layoutMesa.setIcon(fundoMesa);
+        
+        //ATUALIZA O CONTADOR//
+        contadorRodadas.setText(Integer.toString(contadorRodada));
         
         mostraBaralho();
     }
@@ -110,27 +114,36 @@ public class Arena extends javax.swing.JFrame {
     }
     
     public void jogo(ArrayList<Jogador> jogadores){
-        click = false;
         ArrayList<Carta> cartasDaRodada = new ArrayList<Carta>();
-        Random r = new Random();
-        int aleatorio = r.nextInt(jogadores.size());
+        //Random r = new Random();
+        //int aleatorio = r.nextInt(jogadores.size());
         int i=0;
         for(i=0;i<jogadores.size();i++){
             cartasDaRodada.add(jogadores.get(i).excluir());
-            
-          ////////////////////////// ATUALIZA O NUMERO DE JOGADOR //////////////////////////
-            numeroJogador1.setText(Integer.toString(jogadores.get(i).numeroDeCartas()));
-            numeroJogador2.setText(Integer.toString(jogadores.get(i).numeroDeCartas()));
-            
-            if(jogadores.size() >= 3){
-                numeroJogador3.setText(Integer.toString(jogadores.get(i).numeroDeCartas()));
-                if(jogadores.size()==4){
-                    numeroJogador4.setText(Integer.toString(jogadores.get(i).numeroDeCartas()));
-                }
-            }
         }
+        ////////////////////ATUALIZACOES///////////////////
+        atualizaNumeros(cartasDaRodada);
+        ///////////////////TESTA AS CARTAS DA MESA/////////
+        testaMesa(cartasDaRodada);
         exibirCartas(cartasDaRodada);
         jogadores = testaJogadores(jogadores);
+    }
+    
+    public void testaMesa(ArrayList<Carta> cartasDaRodada){
+        
+    }
+    
+    public void atualizaNumeros(ArrayList<Carta> cartasDaRodada){
+        contadorRodadas.setText(Integer.toString(contadorRodada));              //CONTADOR RODADA
+        contadorCartas.setText(Integer.toString(cartasDaRodada.size()));        //NUMERO DE CARTAS
+        numeroJogador1.setText(Integer.toString(jogadores.get(0).numeroDeCartas()));    //NUMERO JOGADOR 1
+        numeroJogador2.setText(Integer.toString(jogadores.get(1).numeroDeCartas()));    //NUMERO JOGADOR 2
+        if(jogadores.size() >= 3){
+            numeroJogador3.setText(Integer.toString(jogadores.get(2).numeroDeCartas()));//NUMERO JOGADOR 3
+            if(jogadores.size()==4){
+            numeroJogador4.setText(Integer.toString(jogadores.get(3).numeroDeCartas()));//NUMERO JOGADOR 4
+            }
+        }
     }
     
     //  MOSTRA A CARTA DO TOPO DE CADA JOGADOR NA MESA //
@@ -153,10 +166,6 @@ public class Arena extends javax.swing.JFrame {
                 iconeCartaJogador4.setImage(iconeCartaJogador4.getImage().getScaledInstance(160,255,1));
                 cartaJogador4.setIcon(iconeCartaJogador4);
             }
-        }
-        
-        if(click){
-            jogo(jogadores);
         }
     }
     
@@ -192,6 +201,8 @@ public class Arena extends javax.swing.JFrame {
         baralho2 = new javax.swing.JLabel();
         baralho3 = new javax.swing.JLabel();
         baralho1 = new javax.swing.JLabel();
+        contadorCartas = new javax.swing.JLabel();
+        contadorRodadas = new javax.swing.JLabel();
         cartaJogador4 = new javax.swing.JLabel();
         cartaJogador3 = new javax.swing.JLabel();
         cartaJogador2 = new javax.swing.JLabel();
@@ -288,6 +299,20 @@ public class Arena extends javax.swing.JFrame {
 
         baralho1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         getContentPane().add(baralho1, new org.netbeans.lib.awtextra.AbsoluteConstraints(500, 520, 180, 180));
+
+        contadorCartas.setBackground(new java.awt.Color(0, 0, 0));
+        contadorCartas.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
+        contadorCartas.setForeground(new java.awt.Color(255, 255, 255));
+        contadorCartas.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        contadorCartas.setText("12");
+        getContentPane().add(contadorCartas, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 180, -1, -1));
+
+        contadorRodadas.setBackground(new java.awt.Color(0, 0, 0));
+        contadorRodadas.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
+        contadorRodadas.setForeground(new java.awt.Color(255, 255, 255));
+        contadorRodadas.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        contadorRodadas.setText("13");
+        getContentPane().add(contadorRodadas, new org.netbeans.lib.awtextra.AbsoluteConstraints(870, 190, 40, -1));
         getContentPane().add(cartaJogador4, new org.netbeans.lib.awtextra.AbsoluteConstraints(790, 190, 232, 345));
         getContentPane().add(cartaJogador3, new org.netbeans.lib.awtextra.AbsoluteConstraints(600, 190, 232, 345));
         getContentPane().add(cartaJogador2, new org.netbeans.lib.awtextra.AbsoluteConstraints(410, 190, 232, 350));
@@ -299,13 +324,11 @@ public class Arena extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnPlayActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPlayActionPerformed
-        click = true;
-      //mostraBaralho();
     }//GEN-LAST:event_btnPlayActionPerformed
 
     private void btnPlayMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnPlayMouseClicked
-        System.out.println("sAFAfs");
-        click = true;
+        contadorRodada=contadorRodada+1;
+        jogo(jogadores);
     }//GEN-LAST:event_btnPlayMouseClicked
 
     public static void main(String args[]) {
@@ -350,6 +373,8 @@ public class Arena extends javax.swing.JFrame {
     private javax.swing.JLabel cartaJogador2;
     private javax.swing.JLabel cartaJogador3;
     private javax.swing.JLabel cartaJogador4;
+    private javax.swing.JLabel contadorCartas;
+    private javax.swing.JLabel contadorRodadas;
     private javax.swing.JLabel layoutArena;
     private javax.swing.JLabel layoutMesa;
     private javax.swing.JLabel nomeJ1;
