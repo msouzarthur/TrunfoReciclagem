@@ -224,19 +224,17 @@ public class Arena extends javax.swing.JFrame {
             default:
                 break;
         }
-        
-        
-        
+         
         
         ////////////////////////////////////////////////////////////////////////////PAREI AQUI
         coringa = testaCoringas(cartasDaRodada, jogadores.size());          //testa o coringa
-        if (coringa == 5) {                                                 //se o coringa venceu
-            for (i = 0; i < jogadores.size(); i++) {                        //localiza ele na mesa
-                if (cartasDaRodada.get(i).getCodigo().equals("H3")) {
+        if (coringa == 5){                                                 //se o coringa venceu
+            if (cartasDaRodada.get(0).getCodigo().equals("H3")) {               //verifica qual jogador tem ele
                     empate = false;
-                    vencedor = i;
-                }
-            }
+                    vencedor = 1;
+            }                                                                  
+           
+            
         } else if (coringa >= 0 && coringa <= 3) {                          //se ha um coringa na mesa
             vencedor = coringa;                                             //mas ele perdeu, atualiza pro indice do vencedor
             empate = false;
@@ -281,12 +279,6 @@ public class Arena extends javax.swing.JFrame {
                 case 1:
                     nomeJ2.setForeground(Color.green);
                     break;
-                case 2:
-                    nomeJ3.setForeground(Color.green);
-                    break;
-                case 3:
-                    nomeJ4.setForeground(Color.green);
-                    break;
                 default:
                     break;
             }
@@ -305,16 +297,11 @@ public class Arena extends javax.swing.JFrame {
         contadorCartas.setText(Integer.toString(cartasDaRodada.size()));                //NUMERO DE CARTAS
         numeroJogador1.setText(Integer.toString(jogadores.get(0).numeroDeCartas()));    //NUMERO JOGADOR 1
         numeroJogador2.setText(Integer.toString(jogadores.get(1).numeroDeCartas()));    //NUMERO JOGADOR 2
-        if (jogadores.size() >= 3) {
-            numeroJogador3.setText(Integer.toString(jogadores.get(2).numeroDeCartas()));//NUMERO JOGADOR 3
-            if (jogadores.size() == 4) {
-                numeroJogador4.setText(Integer.toString(jogadores.get(3).numeroDeCartas()));//NUMERO JOGADOR 4
-            }
-        }
+        
     }
 
-    //  MOSTRA A CARTA DO TOPO DE CADA JOGADOR NA MESA //
-    public void exibirCartas() {
+                                                                                
+    public void exibirCartas() {                                                //  MOSTRA A CARTA DO TOPO DE CADA JOGADOR NA MESA //
         ImageIcon iconeCartaJogador1 = new ImageIcon("src/img/" + cartasDaRodada.get(0).getCodigo() + ".png");
         iconeCartaJogador1.setImage(iconeCartaJogador1.getImage().getScaledInstance(160, 255, 1));
         cartaJogador1.setIcon(iconeCartaJogador1);
@@ -322,21 +309,7 @@ public class Arena extends javax.swing.JFrame {
         ImageIcon iconeCartaJogador2 = new ImageIcon("src/img/" + cartasDaRodada.get(1).getCodigo() + ".png");
         iconeCartaJogador2.setImage(iconeCartaJogador2.getImage().getScaledInstance(160, 255, 1));
         cartaJogador2.setIcon(iconeCartaJogador2);
-
-        if (jogadores.size() >= 3) {
-            if (jogadores.get(2).numeroDeCartas() > 0) {
-                ImageIcon iconeCartaJogador3 = new ImageIcon("src/img/" + cartasDaRodada.get(2).getCodigo() + ".png");
-                iconeCartaJogador3.setImage(iconeCartaJogador3.getImage().getScaledInstance(160, 255, 1));
-                cartaJogador3.setIcon(iconeCartaJogador3);
-            }
-        }
-        if (jogadores.size() == 4) {
-            if (jogadores.get(3).numeroDeCartas() > 0) {
-                ImageIcon iconeCartaJogador4 = new ImageIcon("src/img/" + cartasDaRodada.get(3).getCodigo() + ".png");
-                iconeCartaJogador4.setImage(iconeCartaJogador4.getImage().getScaledInstance(160, 255, 1));
-                cartaJogador4.setIcon(iconeCartaJogador4);
-            }
-        }
+      
     }
 
     /**
@@ -401,12 +374,14 @@ public class Arena extends javax.swing.JFrame {
         nomeJ2.setBackground(new java.awt.Color(0, 0, 0));
         nomeJ2.setFont(new java.awt.Font("Tahoma", 1, 15)); // NOI18N
         nomeJ2.setForeground(new java.awt.Color(255, 255, 255));
-        getContentPane().add(nomeJ2, new org.netbeans.lib.awtextra.AbsoluteConstraints(460, 500, -1, -1));
+        nomeJ2.setText("jogador2");
+        getContentPane().add(nomeJ2, new org.netbeans.lib.awtextra.AbsoluteConstraints(700, 500, -1, -1));
 
         nomeJ1.setBackground(new java.awt.Color(0, 0, 0));
         nomeJ1.setFont(new java.awt.Font("Tahoma", 1, 15)); // NOI18N
         nomeJ1.setForeground(new java.awt.Color(255, 255, 255));
-        getContentPane().add(nomeJ1, new org.netbeans.lib.awtextra.AbsoluteConstraints(270, 500, -1, -1));
+        nomeJ1.setText("jogador1");
+        getContentPane().add(nomeJ1, new org.netbeans.lib.awtextra.AbsoluteConstraints(400, 490, 90, 30));
 
         btnPlay.setBackground(new java.awt.Color(102, 0, 0));
         btnPlay.setFont(new java.awt.Font("Arial Black", 1, 18)); // NOI18N
@@ -448,7 +423,6 @@ public class Arena extends javax.swing.JFrame {
         nomeJogador1.setBackground(new java.awt.Color(51, 51, 51));
         nomeJogador1.setFont(new java.awt.Font("Tahoma", 1, 16)); // NOI18N
         nomeJogador1.setForeground(new java.awt.Color(255, 255, 255));
-        nomeJogador1.setText("NOME");
         getContentPane().add(nomeJogador1, new org.netbeans.lib.awtextra.AbsoluteConstraints(570, 650, 100, -1));
 
         numeroJogador1.setBackground(new java.awt.Color(0, 0, 0));
@@ -486,10 +460,10 @@ public class Arena extends javax.swing.JFrame {
         contadorRodadas.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         contadorRodadas.setText("0");
         getContentPane().add(contadorRodadas, new org.netbeans.lib.awtextra.AbsoluteConstraints(840, 180, 80, 40));
-        getContentPane().add(cartaJogador4, new org.netbeans.lib.awtextra.AbsoluteConstraints(790, 190, 232, 345));
-        getContentPane().add(cartaJogador3, new org.netbeans.lib.awtextra.AbsoluteConstraints(600, 190, 232, 345));
-        getContentPane().add(cartaJogador2, new org.netbeans.lib.awtextra.AbsoluteConstraints(410, 190, 232, 350));
-        getContentPane().add(cartaJogador1, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 190, 232, 345));
+        getContentPane().add(cartaJogador4, new org.netbeans.lib.awtextra.AbsoluteConstraints(690, 190, 232, 345));
+        getContentPane().add(cartaJogador3, new org.netbeans.lib.awtextra.AbsoluteConstraints(580, 190, 232, 345));
+        getContentPane().add(cartaJogador2, new org.netbeans.lib.awtextra.AbsoluteConstraints(650, 190, 232, 350));
+        getContentPane().add(cartaJogador1, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 190, 232, 345));
         getContentPane().add(layoutMesa, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 130, 900, 420));
         getContentPane().add(layoutArena, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1180, 700));
 
