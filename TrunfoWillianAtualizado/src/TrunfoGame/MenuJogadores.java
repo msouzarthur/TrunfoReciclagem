@@ -47,21 +47,8 @@ public class MenuJogadores extends javax.swing.JFrame {
             System.out.println("Jogador adicionado");
             numeroPlayers = numeroPlayers+1;
         }
-        if(btnAddPlayer3.isSelected()){
-            nomes = nomeJogador3.getText();
-            auxiliar = new Jogador(nomes);
-            jogadores.add(new Jogador(nomeJogador3.getText()));
-            System.out.println("Jogador adicionado");
-            numeroPlayers = numeroPlayers+1;
-        }
-        if(btnAddPlayer4.isSelected()){
-            nomes = nomeJogador4.getText();
-            auxiliar = new Jogador(nomes);
-            jogadores.add(new Jogador(nomeJogador4.getText()));
-            System.out.println("Jogador adicionado");
-            numeroPlayers = numeroPlayers+1;
-        }
-        if(numeroPlayers>=2){
+        
+        if(numeroPlayers==2){
             System.out.println(numeroPlayers);
             sortearCartas();
             iniciarJogo();
@@ -83,13 +70,9 @@ public class MenuJogadores extends javax.swing.JFrame {
 
         btnAddPlayer1 = new javax.swing.JToggleButton();
         btnAddPlayer2 = new javax.swing.JToggleButton();
-        btnAddPlayer3 = new javax.swing.JToggleButton();
-        btnAddPlayer4 = new javax.swing.JToggleButton();
         btnJogar = new javax.swing.JButton();
         nomeJogador1 = new javax.swing.JTextField();
         nomeJogador2 = new javax.swing.JTextField();
-        nomeJogador3 = new javax.swing.JTextField();
-        nomeJogador4 = new javax.swing.JTextField();
         fundoMenu = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -116,28 +99,6 @@ public class MenuJogadores extends javax.swing.JFrame {
             }
         });
         getContentPane().add(btnAddPlayer2, new org.netbeans.lib.awtextra.AbsoluteConstraints(470, 350, -1, -1));
-
-        btnAddPlayer3.setBackground(new java.awt.Color(0, 0, 0));
-        btnAddPlayer3.setFont(new java.awt.Font("Arial Black", 1, 18)); // NOI18N
-        btnAddPlayer3.setForeground(new java.awt.Color(255, 255, 255));
-        btnAddPlayer3.setText("ADICIONAR");
-        btnAddPlayer3.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnAddPlayer3ActionPerformed(evt);
-            }
-        });
-        getContentPane().add(btnAddPlayer3, new org.netbeans.lib.awtextra.AbsoluteConstraints(470, 420, -1, -1));
-
-        btnAddPlayer4.setBackground(new java.awt.Color(0, 0, 0));
-        btnAddPlayer4.setFont(new java.awt.Font("Arial Black", 1, 18)); // NOI18N
-        btnAddPlayer4.setForeground(new java.awt.Color(255, 255, 255));
-        btnAddPlayer4.setText("ADICIONAR");
-        btnAddPlayer4.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnAddPlayer4ActionPerformed(evt);
-            }
-        });
-        getContentPane().add(btnAddPlayer4, new org.netbeans.lib.awtextra.AbsoluteConstraints(470, 490, -1, -1));
 
         btnJogar.setBackground(new java.awt.Color(0, 0, 0));
         btnJogar.setFont(new java.awt.Font("Arial Black", 1, 36)); // NOI18N
@@ -169,21 +130,6 @@ public class MenuJogadores extends javax.swing.JFrame {
         nomeJogador2.setText("Jogador 2");
         getContentPane().add(nomeJogador2, new org.netbeans.lib.awtextra.AbsoluteConstraints(660, 350, 230, -1));
 
-        nomeJogador3.setBackground(new java.awt.Color(0, 0, 0));
-        nomeJogador3.setFont(new java.awt.Font("Arial Black", 1, 18)); // NOI18N
-        nomeJogador3.setForeground(new java.awt.Color(255, 255, 255));
-        nomeJogador3.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        nomeJogador3.setText("Jogador 3");
-        getContentPane().add(nomeJogador3, new org.netbeans.lib.awtextra.AbsoluteConstraints(660, 420, 230, -1));
-
-        nomeJogador4.setBackground(new java.awt.Color(0, 0, 0));
-        nomeJogador4.setFont(new java.awt.Font("Arial Black", 1, 18)); // NOI18N
-        nomeJogador4.setForeground(new java.awt.Color(255, 255, 255));
-        nomeJogador4.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        nomeJogador4.setText("Jogador 4");
-        nomeJogador4.setToolTipText("");
-        getContentPane().add(nomeJogador4, new org.netbeans.lib.awtextra.AbsoluteConstraints(660, 490, 230, -1));
-
         fundoMenu.setPreferredSize(new java.awt.Dimension(1260, 790));
         getContentPane().add(fundoMenu, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
 
@@ -206,20 +152,6 @@ public class MenuJogadores extends javax.swing.JFrame {
         else
             btnAddPlayer2.setBackground(Color.red);
     }//GEN-LAST:event_btnAddPlayer2ActionPerformed
-
-    private void btnAddPlayer3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddPlayer3ActionPerformed
-        if(btnAddPlayer3.isSelected())
-            btnAddPlayer3.setBackground(Color.green);
-        else
-            btnAddPlayer3.setBackground(Color.red);
-    }//GEN-LAST:event_btnAddPlayer3ActionPerformed
-
-    private void btnAddPlayer4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddPlayer4ActionPerformed
-        if(btnAddPlayer4.isSelected())
-            btnAddPlayer4.setBackground(Color.green);
-        else
-            btnAddPlayer4.setBackground(Color.red);
-    }//GEN-LAST:event_btnAddPlayer4ActionPerformed
 
     private void btnJogarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnJogarActionPerformed
         cadastros();
@@ -271,14 +203,10 @@ public class MenuJogadores extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JToggleButton btnAddPlayer1;
     private javax.swing.JToggleButton btnAddPlayer2;
-    private javax.swing.JToggleButton btnAddPlayer3;
-    private javax.swing.JToggleButton btnAddPlayer4;
     private javax.swing.JButton btnJogar;
     private javax.swing.JLabel fundoMenu;
     private javax.swing.JTextField nomeJogador1;
     private javax.swing.JTextField nomeJogador2;
-    private javax.swing.JTextField nomeJogador3;
-    private javax.swing.JTextField nomeJogador4;
     // End of variables declaration//GEN-END:variables
 
 }

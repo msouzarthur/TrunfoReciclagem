@@ -120,6 +120,8 @@ public class SuperTrunfoDaReciclagem {
                 System.out.println("- Iniciando rodada " + numeroRodada);
                 System.out.println("- Jogando cartas na mesa...");
             }
+            //adicionar pra poder escolher o modo de jogo
+            //modoDeJogo = menuModo();
             empate = false;
             vencedor = 0;
             status(jogadores);                                                  //Imprime o andamento

@@ -10,7 +10,7 @@ public class Jogador {
 
     private String nome;
     private ArrayList<Carta> cartas;
-
+    
     Jogador(String n) {
         this.nome = n;
         this.cartas = new ArrayList<Carta>();

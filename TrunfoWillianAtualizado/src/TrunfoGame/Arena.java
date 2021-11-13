@@ -3,8 +3,6 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
-
 //teste commit Williian
 package TrunfoGame;
 
@@ -22,8 +20,10 @@ import javax.swing.ImageIcon;
 public class Arena extends javax.swing.JFrame {
 
     private int contadorRodada;
+    private int vencedor;
     private ArrayList<Jogador> jogadores;
     private ArrayList<Carta> cartasDaRodada;
+    private boolean empate;
 
     /**
      * Creates new form Arena
@@ -105,184 +105,152 @@ public class Arena extends javax.swing.JFrame {
         }
     }
 
-    public ArrayList<Jogador> testaJogadores(ArrayList<Jogador> jogadores) {
+    public void testaJogadores() {
         ArrayList<Jogador> novaLista = new ArrayList<Jogador>();
         for (int i = 0; i < jogadores.size(); i++) {
-            if (jogadores.get(i).numeroDeCartas() > 0) {                        //Se o jogador nao tiver cartas
-                novaLista.add(jogadores.get(i));                                //Se ele tem cartas, eh adicionado na nova lista
+            if (jogadores.get(i).numeroDeCartas() > 0) {                        //Se o jogador nao tiver cartas, eh deixado de fora da lista nova
+                novaLista.add(jogadores.get(i));                                //Se ele tem cartas, eh adicionado na lista nova
+            } else {
+                if (i == 0) {
+                    baralho1.setVisible(false);
+                }
+                if (i == 1) {
+                    baralho2.setVisible(false);
+                }
             }
         }
         if (novaLista.size() == 1) {
-            finaliza(novaLista.get(0));                                         //Se houver somente 1 jogador, finaliza o jogo
+            fim(novaLista.get(0));                                              //Se houver somente 1 jogador, finaliza o jogo
         }
-        return novaLista;                                                       //Retorna a lista de quem ainda esta no jogo
+    }
+
+    public void fim(Jogador vencedor) {
+        Final fim = new Final(vencedor);
+        fim.setVisible(true);
+        this.dispose();
     }
 
     public void jogo(ArrayList<Jogador> jogadores) {
         nomeJ1.setForeground(Color.white);
         nomeJ2.setForeground(Color.white);
-        if (jogadores.size() >= 3) {
-            nomeJ3.setForeground(Color.white);
-        }
-        if (jogadores.size() == 4) {
-            nomeJ4.setForeground(Color.white);
-        }
-        //////////LIMPA A MESA E PEGA CARTAS NOVAS/////////////
-        cartasDaRodada = new ArrayList<Carta>();
-        for (int i = 0; i < jogadores.size(); i++) {
-            cartasDaRodada.add(jogadores.get(i).excluir());
-        }
-        ////////////////////ATUALIZACOES///////////////////
-        //atualizaNumeros(cartasDaRodada);
-        atualizaNumeros();
+
         ///////////////////TESTA AS CARTAS DA MESA/////////
-        //testaMesa(cartasDaRodada);
         testaMesa();
-        
-        //exibirCartas(cartasDaRodada);
+        ////////////////////ATUALIZACOES///////////////////
+        atualizaNumeros();
+
         exibirCartas();
-        
-        jogadores = testaJogadores(jogadores);
+
     }
 
-    //public void testaMesa(ArrayList<Carta> cartasDaRodada) {
-    public void testaMesa(){
+    public void testaMesa() {
         Random r = new Random();
-        boolean empate = false;
-        int i, coringa = 0, vencedor = 0, modoDeJogo = r.nextInt(4);
-        do {
-            if (empate) {                                                       //se esta empatado
-                nomeJ1.setForeground(Color.white);
-                nomeJ2.setForeground(Color.white);
-                if (jogadores.size() >= 3) {
-                    nomeJ3.setForeground(Color.white);
-                }
-                if (jogadores.size() == 4) {
-                    nomeJ4.setForeground(Color.white);
-                }
-                jogadores = testaJogadores(jogadores);                          //testa quem ainda tem carta pra rodada de desempate
-                for (i = 0; i < jogadores.size(); i++) //Pega as novas cartas
-                {
+        int i, coringa, vencedor = 0, modoDeJogo = r.nextInt(4);
+        if (empate) {                                                       //se esta empatado
+            nomeJ1.setForeground(Color.white);
+            nomeJ2.setForeground(Color.white);
+
+            testaJogadores();                                                   //testa quem ainda tem carta pra rodada de desempate
+            for (i = 0; i < jogadores.size(); i++) //Pega as novas cartas
+            {
+                if (jogadores.get(i).numeroDeCartas() > 0) {
                     cartasDaRodada.add(0, jogadores.get(i).excluir());
                 }
-            } else {                                                            //se nao esta empatado
-                contadorRodadas.setText(Integer.toString(contadorRodada));      //CONTADOR RODADA
             }
-            empate = false;
-            vencedor = 0;
-            
-            //ATUALIZA LABEL DO MODO
-            
-            switch (modoDeJogo) {
-                case 0:                                                         //rodada sobre decomposicao
-                    vencedor = 0;
-                    mostrarCartas(0);
-                    for (i = 1; i < jogadores.size(); i++) {                    //encontra a menor decomposicao das cartas
-                        if (cartasDaRodada.get(vencedor).comparaDecomposicao(cartasDaRodada.get(i)) == -1) {
-                            vencedor = i;
-                            empate = false;
-                            System.out.println("Decomposicao");
-                            
-                            exibeModoJogo.setText("DECOMPOSIÇÃO");
-                        }
-                    }
-                    for (i = 0; i < jogadores.size(); i++) {                    //testa se nao ha empate na menor decomposicao com as cartas da mesa
-                        if (vencedor != i) {                                    //se nao for a carta vencedora com ela mesma, existe um empate
-                            if (cartasDaRodada.get(vencedor).comparaDecomposicao(cartasDaRodada.get(i)) == 0) {
-                                empate = true;
-                                System.out.println("Decomposicao - empate");
-                                exibeModoJogo.setText("DEC | EMPATE");
-                            }
-                        }
-                    }
-                    break;
-                case 1:                                                         //rodada sobre reciclabilidade
-                    vencedor = 0;
-                    mostrarCartas(1);
-                    for (i = 1; i < jogadores.size(); i++) {                    //encontra a carta reciclavel
-                        if (cartasDaRodada.get(vencedor).comparaReciclavel(cartasDaRodada.get(i)) == -1) {
-                            vencedor = i;
-                            empate = false;
-                            exibeModoJogo.setText("RECICLABILIDADE");
-                            System.out.println("Reciclavel");
-                        }
-                    }
-                    for (i = 0; i < jogadores.size(); i++) {                    //testa se nao tem mais de uma reciclavel na mesa
-                        if (vencedor != i) {                                    //se nao for ela mesma, existe um empate
-                            if (cartasDaRodada.get(vencedor).comparaReciclavel(cartasDaRodada.get(i)) == 0) {
-                                empate = true;
-                                exibeModoJogo.setText("REC - EMPATE");
-                                System.out.println("Reciclavel - empate");
-                            }
-                        }
-                    }
-                    break;
-                case 2:                                                         //rodada de ataque
-                    vencedor = 0;
-                    mostrarCartas(2);
-                    for (i = 1; i < jogadores.size(); i++) {                    //encontra o maior ataque na mesa
-                        if (cartasDaRodada.get(vencedor).comparaAtaque(cartasDaRodada.get(i)) == -1) {
-                            vencedor = i;
-                            empate = false;
-                            exibeModoJogo.setText("ATAQUE");
-                            System.out.println("ataque");
-                            
-                        }
-                    }
-                    for (i = 0; i < jogadores.size(); i++) {                    //testa se nao tem um ataque igual na mesa
-                        if (vencedor != i) {                                    //se nao for ela mesma, existe um empate
-                            if (cartasDaRodada.get(vencedor).comparaAtaque(cartasDaRodada.get(i)) == 0) {
-                                empate = true;
-                                exibeModoJogo.setText("ATAQUE - EMPATE");
-                                System.out.println("ataque empate");
-                            }
-                        }
-                    }
-                    break;
-                case 3:                                                         //rodada de cores
-                    vencedor = 0;
-                    mostrarCartas(3);
-                    for (i = 1; i < jogadores.size(); i++) {                    //pega a cor que ganha das outras
-                        if (cartasDaRodada.get(vencedor).comparaCor(cartasDaRodada.get(i)) == -1) {
-                            vencedor = i;
-                            empate = false;
-                            exibeModoJogo.setText("COR");
-                        }
-                    }
-                    for (i = 0; i < jogadores.size(); i++) {                    //testa se nao tem um empate
-                        if (vencedor != i) {                                    //se nao for ela mesma, existe um empate
-                            if (cartasDaRodada.get(vencedor).comparaCor(cartasDaRodada.get(i)) == 0) {
-                                empate = true;
-                                exibeModoJogo.setText("COR - EMPATE");
-                            }
-                        }
-                    }
-                    break;
-                default:
-                    break;
-            }
-            modoDeJogo = r.nextInt(4);                                          //testa coringa retorna 5 se ele venceu, ou o indice do vencedor
-            coringa = testaCoringas(cartasDaRodada, jogadores.size());          //testa o coringa
-            if (coringa == 5) {                                                 //se o coringa venceu
-                for (i = 0; i < jogadores.size(); i++) {                        //localiza ele na mesa
-                    if (cartasDaRodada.get(i).getCodigo().equals("H3")) {
-                        empate = false;
-                        vencedor = i;
-                    }
+        } else {                                                                //se nao esta empatado
+            contadorRodadas.setText(Integer.toString(contadorRodada));          //CONTADOR RODADA
+            //////////LIMPA A MESA E PEGA CARTAS NOVAS/////////////
+            cartasDaRodada = new ArrayList<Carta>();
+            for (i = 0; i < jogadores.size(); i++) {
+                if (jogadores.get(i).numeroDeCartas() > 0) {
+                    cartasDaRodada.add(jogadores.get(i).excluir());
                 }
-            } else if (coringa >= 0 && coringa <= 3) {                          //se ha um coringa na mesa
-                vencedor = coringa;                                             //mas ele perdeu, atualiza pro indice do vencedor
-                empate = false;
             }
-        } while (empate != false);
-        atualizaVencedor(vencedor);                                             //pinta o nome de verde
-        atualizaDeck(cartasDaRodada, vencedor);                                  //adiciona as cartas pro vencedor
+        }
+        empate = false;
+        vencedor = 0;
 
-    }
+        //ATUALIZA LABEL DO MODO
+        switch (modoDeJogo) {
+            ////////////////////////////////////RODADA DE DECOMPOSICAO//////////////////////////////
+            case 0:                                                         //rodada sobre decomposicao
+                exibeModoJogo.setText("DECOMPOSICAO");
+                mostrarCartas(0);
+                if (cartasDaRodada.get(0).comparaDecomposicao(cartasDaRodada.get(1)) == -1) {
+                    vencedor = 1;
+                    empate = false;
+                } else if (cartasDaRodada.get(0).comparaDecomposicao(cartasDaRodada.get(1)) == 0) {
+                    empate = true;
+                    exibeModoJogo.setText("DEC | EMPATE");
+                }
+                break;
+            ////////////////////////////////////RODADA DE RECICLABILIDADE///////////////////////////
+            case 1:                                                         //rodada sobre reciclabilidade
+                exibeModoJogo.setText("RECICLABILIDADE");
+                mostrarCartas(1);
+                if (cartasDaRodada.get(0).comparaReciclavel(cartasDaRodada.get(1)) == -1) {
+                    vencedor = 1;
+                    empate = false;
+                } else if (cartasDaRodada.get(0).comparaReciclavel(cartasDaRodada.get(1)) == 0) {
+                    empate = true;
+                    exibeModoJogo.setText("REC | EMPATE");
+                }
+                break;
+            ////////////////////////////////////RODADA DE ATAQUE//////////////////////////////
+            case 2:
+                exibeModoJogo.setText("ATAQUE");
+                mostrarCartas(2);
+                if (cartasDaRodada.get(0).comparaAtaque(cartasDaRodada.get(1)) == -1) {
+                    vencedor = 1;
+                    empate = false;
+                } else if (cartasDaRodada.get(0).comparaAtaque(cartasDaRodada.get(1)) == 0) {
+                    empate = true;
+                    exibeModoJogo.setText("ATAQUE EMPATE");
+                }
+                break;
+            //////////////////////////////////////RODADA DE CORES///////////////////////////////
+            case 3:                                                         //rodada de cores
+                exibeModoJogo.setText("COR");
+                mostrarCartas(3);
+                if (cartasDaRodada.get(0).comparaCor(cartasDaRodada.get(1)) == -1) {
+                    vencedor = 1;
+                    empate = false;
+                } else if (cartasDaRodada.get(0).comparaCor(cartasDaRodada.get(1)) == 0) {
+                    empate = true;
+                    exibeModoJogo.setText("COR EMPATE");
+                }
+                break;
+
+            default:
+                break;
+        }
         
+        
+        
+        
+        ////////////////////////////////////////////////////////////////////////////PAREI AQUI
+        coringa = testaCoringas(cartasDaRodada, jogadores.size());          //testa o coringa
+        if (coringa == 5) {                                                 //se o coringa venceu
+            for (i = 0; i < jogadores.size(); i++) {                        //localiza ele na mesa
+                if (cartasDaRodada.get(i).getCodigo().equals("H3")) {
+                    empate = false;
+                    vencedor = i;
+                }
+            }
+        } else if (coringa >= 0 && coringa <= 3) {                          //se ha um coringa na mesa
+            vencedor = coringa;                                             //mas ele perdeu, atualiza pro indice do vencedor
+            empate = false;
+        }
+        testaJogadores();
+        if (!empate) {
+            atualizaVencedor(vencedor);                                             //pinta o nome de verde
+            atualizaDeck(cartasDaRodada, vencedor);                                  //adiciona as cartas pro vencedor
+        }
+    }
+
     public void mostrarCartas(int modoDeJogo) {
         System.out.println("- Cartas na mesa (" + cartasDaRodada.size() + ")");
-        for (int i = 0; i < jogadores.size(); i++) {                            //exibe as cartas de acordo com o modo de jogo selecionado
+        /*for (int i = 0; i < jogadores.size(); i++) {                            //exibe as cartas de acordo com o modo de jogo selecionado
             System.out.print("* Carta do " + jogadores.get(i).nome() + ": ");
             switch (modoDeJogo) {
                 case 0:
@@ -300,37 +268,40 @@ public class Arena extends javax.swing.JFrame {
                 default:
                     break;
             }
-        }
+        }*/
     }
-    
+
     public void atualizaVencedor(int vencedor) {
-        switch (vencedor) {
-            case 0:
-                nomeJ1.setForeground(Color.green);
-                break;
-            case 1:
-                nomeJ2.setForeground(Color.green);
-                break;
-            case 2:
-                nomeJ3.setForeground(Color.green);
-                break;
-            case 3:
-                nomeJ4.setForeground(Color.green);
-                break;
-            default:
-                break;
+        System.out.println("Atualiza Vencedor: " + jogadores.get(vencedor).nome());
+        if (empate == false) {
+            switch (vencedor) {
+                case 0:
+                    nomeJ1.setForeground(Color.green);
+                    break;
+                case 1:
+                    nomeJ2.setForeground(Color.green);
+                    break;
+                case 2:
+                    nomeJ3.setForeground(Color.green);
+                    break;
+                case 3:
+                    nomeJ4.setForeground(Color.green);
+                    break;
+                default:
+                    break;
+            }
         }
     }
 
     public void atualizaDeck(ArrayList<Carta> cartasDaRodada, int vencedor) {
         for (int i = 0; i < cartasDaRodada.size(); i++) {
-            jogadores.get(vencedor).incluir(cartasDaRodada.get(i));
+            if (jogadores.get(vencedor).numeroDeCartas() > 0) {
+                jogadores.get(vencedor).incluir(cartasDaRodada.get(i));
+            }
         }
-
     }
 
-    //public void atualizaNumeros(ArrayList<Carta> cartasDaRodada) {
-    public void atualizaNumeros(){
+    public void atualizaNumeros() {
         contadorCartas.setText(Integer.toString(cartasDaRodada.size()));                //NUMERO DE CARTAS
         numeroJogador1.setText(Integer.toString(jogadores.get(0).numeroDeCartas()));    //NUMERO JOGADOR 1
         numeroJogador2.setText(Integer.toString(jogadores.get(1).numeroDeCartas()));    //NUMERO JOGADOR 2
@@ -343,8 +314,7 @@ public class Arena extends javax.swing.JFrame {
     }
 
     //  MOSTRA A CARTA DO TOPO DE CADA JOGADOR NA MESA //
-    //public void exibirCartas(ArrayList<Carta> cartasDaRodada) {
-    public void exibirCartas(){
+    public void exibirCartas() {
         ImageIcon iconeCartaJogador1 = new ImageIcon("src/img/" + cartasDaRodada.get(0).getCodigo() + ".png");
         iconeCartaJogador1.setImage(iconeCartaJogador1.getImage().getScaledInstance(160, 255, 1));
         cartaJogador1.setIcon(iconeCartaJogador1);
@@ -354,18 +324,20 @@ public class Arena extends javax.swing.JFrame {
         cartaJogador2.setIcon(iconeCartaJogador2);
 
         if (jogadores.size() >= 3) {
-            ImageIcon iconeCartaJogador3 = new ImageIcon("src/img/" + cartasDaRodada.get(2).getCodigo() + ".png");
-            iconeCartaJogador3.setImage(iconeCartaJogador3.getImage().getScaledInstance(160, 255, 1));
-            cartaJogador3.setIcon(iconeCartaJogador3);
-
-            if (jogadores.size() == 4) {
+            if (jogadores.get(2).numeroDeCartas() > 0) {
+                ImageIcon iconeCartaJogador3 = new ImageIcon("src/img/" + cartasDaRodada.get(2).getCodigo() + ".png");
+                iconeCartaJogador3.setImage(iconeCartaJogador3.getImage().getScaledInstance(160, 255, 1));
+                cartaJogador3.setIcon(iconeCartaJogador3);
+            }
+        }
+        if (jogadores.size() == 4) {
+            if (jogadores.get(3).numeroDeCartas() > 0) {
                 ImageIcon iconeCartaJogador4 = new ImageIcon("src/img/" + cartasDaRodada.get(3).getCodigo() + ".png");
                 iconeCartaJogador4.setImage(iconeCartaJogador4.getImage().getScaledInstance(160, 255, 1));
                 cartaJogador4.setIcon(iconeCartaJogador4);
             }
         }
     }
-
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -413,7 +385,7 @@ public class Arena extends javax.swing.JFrame {
         exibeModoJogo.setForeground(new java.awt.Color(255, 255, 255));
         exibeModoJogo.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         exibeModoJogo.setText("MODO DE JOGO");
-        getContentPane().add(exibeModoJogo, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 540, 210, 30));
+        getContentPane().add(exibeModoJogo, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 540, 210, 30));
         getContentPane().add(fundoModoJogo, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 540, 210, 30));
 
         nomeJ4.setBackground(new java.awt.Color(0, 0, 0));
@@ -528,8 +500,11 @@ public class Arena extends javax.swing.JFrame {
     }//GEN-LAST:event_btnPlayActionPerformed
 
     private void btnPlayMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnPlayMouseClicked
+        System.out.println("BOTAO _ VENCEDRO " + vencedor);
         contadorRodada = contadorRodada + 1;
         jogo(jogadores);
+        //if(!empate){
+        // }
     }//GEN-LAST:event_btnPlayMouseClicked
 
     public static void main(String args[]) {
@@ -546,13 +521,17 @@ public class Arena extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(Arena.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Arena.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(Arena.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Arena.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(Arena.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Arena.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(Arena.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Arena.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
         //</editor-fold>

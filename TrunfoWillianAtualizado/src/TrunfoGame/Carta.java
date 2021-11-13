@@ -61,6 +61,8 @@ abstract class Carta {
         return "-> Codigo: " + codigo + "\n-> Nome: " + nome + "\n-> Descricao: " + descricao + "\n-> Tipo: " + tipo + "\n-> Cor: " + cor + "\n-> Decomposicao: " + decomposicao + "\n-> Ataque: " + ataque;
     }
 
+    
+    //LARANJA E VERDE
     public int comparaCor(Carta adversario) {
         if (this.cor.equals(adversario.cor)) {
             return 0;
