@@ -248,7 +248,7 @@ public class SuperTrunfoDaReciclagem {
             if (cartasDaRodada.get(i).getCodigo().equals("H3")) {               //Se acha o coringa
                 System.out.println("- Ha um coringa na mesa");
                 for (int j = 0; j < tamanho; j++) {                             //Roda pra comparar o coringa
-                    if (cartasDaRodada.get(j).getCodigo().equals("A1")) {
+                    if(cartasDaRodada.get(j).getCodigo().equals("A1")) {
                         return j;
                     } else if (cartasDaRodada.get(j).getCodigo().equals("B1")) {
                         return j;

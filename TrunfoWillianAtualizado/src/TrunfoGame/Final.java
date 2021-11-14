@@ -5,6 +5,8 @@
  */
 package TrunfoGame;
 
+import javax.swing.ImageIcon;
+
 /**
  *
  * @author arthu
@@ -14,13 +16,12 @@ public class Final extends javax.swing.JFrame {
     /**
      * Creates new form Final
      */
-    public Final() {
-        initComponents();
-    }
-
-    Final(Jogador vencedor) {
     
-        
+    public Final(Jogador vencedor) {
+        initComponents();
+        System.out.println("nome"+vencedor.nome());
+        nomeJogador.setText(vencedor.nome());
+        fundoFinal();
         /*CRIAR LABEL PRA EXIBIR O vencedor.nome()
         TELA DE FIM DO JOGO
         BOTÃO DE FECHAR TUDO A ESQUERDA
@@ -30,6 +31,13 @@ public class Final extends javax.swing.JFrame {
             menu.setVisible(true);
             this.dispose();
         */
+        
+    }
+    private void fundoFinal() {
+        //ADICIONA O FUNDO DA ARENA //
+        ImageIcon icon = new ImageIcon("src/img/menu.png");
+        icon.setImage(icon.getImage().getScaledInstance(1260, 709, 1));
+        layoutFinal.setIcon(icon);
     }
 
     /**
@@ -41,21 +49,58 @@ public class Final extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        nomeJogador = new javax.swing.JLabel();
+        mensagemParabens = new javax.swing.JLabel();
+        mensagem = new javax.swing.JLabel();
+        btnFechar = new javax.swing.JButton();
+        btnMenu = new javax.swing.JButton();
+        layoutFinal = new javax.swing.JLabel();
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-        getContentPane().setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 400, Short.MAX_VALUE)
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 300, Short.MAX_VALUE)
-        );
+        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        nomeJogador.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
+        getContentPane().add(nomeJogador, new org.netbeans.lib.awtextra.AbsoluteConstraints(360, 300, 460, 40));
+
+        mensagemParabens.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
+        mensagemParabens.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        mensagemParabens.setText("Parabéns");
+        getContentPane().add(mensagemParabens, new org.netbeans.lib.awtextra.AbsoluteConstraints(520, 220, 150, 80));
+
+        mensagem.setText("QUE ELE GANHOU O JOGO E PODE JOGAR DE NOVO E AGRADECER POR TER JOGADO");
+        getContentPane().add(mensagem, new org.netbeans.lib.awtextra.AbsoluteConstraints(590, 400, -1, -1));
+
+        btnFechar.setText("FECHAR");
+        btnFechar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnFecharActionPerformed(evt);
+            }
+        });
+        getContentPane().add(btnFechar, new org.netbeans.lib.awtextra.AbsoluteConstraints(420, 520, -1, -1));
+
+        btnMenu.setText("MENU");
+        btnMenu.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnMenuActionPerformed(evt);
+            }
+        });
+        getContentPane().add(btnMenu, new org.netbeans.lib.awtextra.AbsoluteConstraints(710, 520, -1, -1));
+
+        layoutFinal.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        getContentPane().add(layoutFinal, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1180, 700));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void btnMenuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMenuActionPerformed
+        Menu menu = new Menu();
+        menu.setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_btnMenuActionPerformed
+
+    private void btnFecharActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFecharActionPerformed
+        System.exit(0);
+    }//GEN-LAST:event_btnFecharActionPerformed
 
     /**
      * @param args the command line arguments
@@ -87,11 +132,16 @@ public class Final extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new Final().setVisible(true);
             }
         });
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnFechar;
+    private javax.swing.JButton btnMenu;
+    private javax.swing.JLabel layoutFinal;
+    private javax.swing.JLabel mensagem;
+    private javax.swing.JLabel mensagemParabens;
+    private javax.swing.JLabel nomeJogador;
     // End of variables declaration//GEN-END:variables
 }
