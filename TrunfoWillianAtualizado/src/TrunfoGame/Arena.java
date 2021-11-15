@@ -219,6 +219,12 @@ public class Arena extends javax.swing.JFrame {
             default:
                 break;
         }
+        
+        if(empate){
+            nomeJ1.setForeground(Color.yellow);
+            nomeJ2.setForeground(Color.yellow);
+        }
+        
         coringa = testaCoringas(cartasDaRodada, jogadores.size());              //testa o coringa
         if (coringa == 5) {                                                     //se o coringa venceu
             if (cartasDaRodada.get(0).getCodigo().equals("H3")) {               //verifica qual jogador tem ele
