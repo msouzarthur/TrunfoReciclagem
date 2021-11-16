@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-//teste commit Williian
+
 package TrunfoGame;
 
 import static TrunfoGame.SuperTrunfoDaReciclagem.finaliza;
@@ -80,29 +80,6 @@ public class Arena extends javax.swing.JFrame {
         baralhoEsquerda.setImage(baralhoEsquerda.getImage().getScaledInstance(180, 150, 1));
         baralho2.setIcon(baralhoEsquerda);
 
-        /*if (jogadores.size() >= 3) {
-            //JOGADOR 3 -- Adicionando nomes e nº de cartas do baralho p/ parte grafica
-            nomeJogador3.setText(jogadores.get(2).nome());
-            numero = jogadores.get(2).numeroDeCartas();
-            numeroJogador3.setText(Integer.toString(numero));
-            nomeJ3.setText(jogadores.get(2).nome());
-            //Importando img e setando na parte grafica//
-            ImageIcon baralhoCima = new ImageIcon("src/img/baralhoCima.png");
-            baralhoCima.setImage(baralhoCima.getImage().getScaledInstance(150, 180, 1));
-            baralho3.setIcon(baralhoCima);
-
-            if (jogadores.size() == 4) {
-                //JOGADOR 4 -- Adicionando nomes e nº de cartas do baralho p/ parte grafica
-                nomeJogador4.setText(jogadores.get(3).nome());
-                numero = jogadores.get(3).numeroDeCartas();
-                numeroJogador4.setText(Integer.toString(numero));
-                nomeJ4.setText(jogadores.get(3).nome());
-                //Importando img e setando na parte grafica//
-                ImageIcon baralhoDireita = new ImageIcon("src/img/baralhoDireita.png");
-                baralhoDireita.setImage(baralhoDireita.getImage().getScaledInstance(180, 150, 1));
-                baralho4.setIcon(baralhoDireita);
-            }
-        }*/
     }
 
     public void testaJogadores() {
