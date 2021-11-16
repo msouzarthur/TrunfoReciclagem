@@ -87,7 +87,7 @@ public class MenuJogadores extends javax.swing.JFrame {
                 btnAddPlayer1ActionPerformed(evt);
             }
         });
-        getContentPane().add(btnAddPlayer1, new org.netbeans.lib.awtextra.AbsoluteConstraints(470, 280, -1, -1));
+        getContentPane().add(btnAddPlayer1, new org.netbeans.lib.awtextra.AbsoluteConstraints(450, 280, -1, -1));
 
         btnAddPlayer2.setBackground(new java.awt.Color(0, 0, 0));
         btnAddPlayer2.setFont(new java.awt.Font("Arial Black", 1, 18)); // NOI18N
@@ -98,7 +98,7 @@ public class MenuJogadores extends javax.swing.JFrame {
                 btnAddPlayer2ActionPerformed(evt);
             }
         });
-        getContentPane().add(btnAddPlayer2, new org.netbeans.lib.awtextra.AbsoluteConstraints(470, 350, -1, -1));
+        getContentPane().add(btnAddPlayer2, new org.netbeans.lib.awtextra.AbsoluteConstraints(450, 350, -1, -1));
 
         btnJogar.setBackground(new java.awt.Color(0, 0, 0));
         btnJogar.setFont(new java.awt.Font("Arial Black", 1, 36)); // NOI18N
@@ -109,7 +109,7 @@ public class MenuJogadores extends javax.swing.JFrame {
                 btnJogarActionPerformed(evt);
             }
         });
-        getContentPane().add(btnJogar, new org.netbeans.lib.awtextra.AbsoluteConstraints(600, 580, -1, -1));
+        getContentPane().add(btnJogar, new org.netbeans.lib.awtextra.AbsoluteConstraints(530, 580, -1, -1));
 
         nomeJogador1.setBackground(new java.awt.Color(0, 0, 0));
         nomeJogador1.setFont(new java.awt.Font("Arial Black", 1, 18)); // NOI18N
@@ -130,6 +130,8 @@ public class MenuJogadores extends javax.swing.JFrame {
         nomeJogador2.setText("Jogador 2");
         getContentPane().add(nomeJogador2, new org.netbeans.lib.awtextra.AbsoluteConstraints(660, 350, 230, -1));
 
+        fundoMenu.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        fundoMenu.setVerticalAlignment(javax.swing.SwingConstants.TOP);
         fundoMenu.setPreferredSize(new java.awt.Dimension(1260, 790));
         getContentPane().add(fundoMenu, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
 

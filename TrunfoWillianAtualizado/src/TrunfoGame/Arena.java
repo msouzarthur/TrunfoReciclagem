@@ -226,15 +226,20 @@ public class Arena extends javax.swing.JFrame {
         }
         
         coringa = testaCoringas(cartasDaRodada, jogadores.size());              //testa o coringa
-        if (coringa == 5) {                                                     //se o coringa venceu
+        if (coringa == 5) {                                                     //se o coringa venceu a mesa
             if (cartasDaRodada.get(0).getCodigo().equals("H3")) {               //verifica qual jogador tem ele
-                empate = false;
+                empate = false;                                                 //primeiro jogador
+                vencedor = 0;
+            }
+            else{                                                               //segundo jogador
+                empate = false;             
                 vencedor = 1;
             }
         } else if (coringa >= 0 && coringa <= 3) {                              //se ha um coringa na mesa
             vencedor = coringa;                                                 //mas ele perdeu, atualiza pro indice do vencedor
             empate = false;
         }
+        System.out.println("RETORNO DO CORINGA : "+coringa);
         testaJogadores();
         if (!empate) {
             //FORCA VENCEDOR

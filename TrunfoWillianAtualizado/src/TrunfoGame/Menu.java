@@ -97,7 +97,7 @@ public class Menu extends javax.swing.JFrame {
 
         FundoMenu.setBackground(new java.awt.Color(0, 0, 0));
         FundoMenu.setFont(new java.awt.Font("Bauhaus 93", 1, 36)); // NOI18N
-        getContentPane().add(FundoMenu, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1270, 720));
+        getContentPane().add(FundoMenu, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, -10, 1270, 720));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
