@@ -1,12 +1,6 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 package TrunfoGame;
 
-import static TrunfoGame.SuperTrunfoDaReciclagem.finaliza;
+//import static TrunfoGame.SuperTrunfoDaReciclagem.menuModo;
 import static TrunfoGame.SuperTrunfoDaReciclagem.testaCoringas;
 import java.awt.Color;
 import java.util.ArrayList;
@@ -141,7 +135,9 @@ public class Arena extends javax.swing.JFrame {
                 }
             }
         empate = false;
-
+        //ESCOLHE O MODO DE JOGO//
+        //Descomentar o import
+        //modoDeJogo = menuModo();
         //ATUALIZA LABEL DO MODO
         switch (modoDeJogo) {
             ////////////////////////////////////RODADA DE DECOMPOSICAO//////////////////////////////
