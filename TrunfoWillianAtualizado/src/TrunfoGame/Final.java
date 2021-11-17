@@ -21,26 +21,13 @@ public class Final extends javax.swing.JFrame {
         initComponents();
         System.out.println("nome"+vencedor.nome());
         nomeJogador.setText(vencedor.nome());
-        fundoFinal();
-        /*CRIAR LABEL PRA EXIBIR O vencedor.nome()
-        TELA DE FIM DO JOGO
-        BOTÃO DE FECHAR TUDO A ESQUERDA
-        BOTÃO DE VOLTAR AO MENU A DIREITA 
-        BOTÃO DO MENU FAZER AQUELE ESQUEMA DE 
-            Menu menu = new Menu();
-            menu.setVisible(true);
-            this.dispose();
-        */
-        
+        fundoFinal();     
     }
     private void fundoFinal() {
         //ADICIONA O FUNDO DA ARENA //
         ImageIcon icon = new ImageIcon("src/img/fundoGanhador.png");
         icon.setImage(icon.getImage().getScaledInstance(1260, 709, 1));
         layoutFinal.setIcon(icon);
-        
-        
-        //creditos.setVisible(false);
     }
 
     /**
@@ -140,8 +127,6 @@ public class Final extends javax.swing.JFrame {
         ImageIcon credito = new ImageIcon("src/img/creditos.png");
         credito.setImage(credito.getImage().getScaledInstance(1260, 709, 1));
         creditos.setIcon(credito);
-        
-        
         
     }//GEN-LAST:event_btnCreditosActionPerformed
 

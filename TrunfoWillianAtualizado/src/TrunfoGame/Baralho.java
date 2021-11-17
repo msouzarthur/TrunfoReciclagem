@@ -42,7 +42,7 @@ public class Baralho {
                 if (dados[7].equals("sim")) {
                     ehReciclavel = new Reciclavel(dados[0], dados[1], dados[2], dados[3], Cor.stringToCor(dados[4]), Double.parseDouble(dados[5]), Integer.parseInt(dados[6]));
                     cartas.add(ehReciclavel);
-                } //if (dados[7].equals("não")) {
+                } 
                 else {
                     naoReciclavel = new NaoReciclavel(dados[0], dados[1], dados[2], dados[3], Cor.stringToCor(dados[4]), Double.parseDouble(dados[5]), Integer.parseInt(dados[6]));
                     cartas.add(naoReciclavel);
