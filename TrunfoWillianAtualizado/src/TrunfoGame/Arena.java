@@ -14,8 +14,8 @@ import java.util.Random;
 import javax.swing.ImageIcon;
 
 /**
- *
- * @author willian
+ * @author arthur souza - 19102583
+ * @author william rodrigues - 19100835
  */
 public class Arena extends javax.swing.JFrame {
 
