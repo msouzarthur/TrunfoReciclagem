@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package TrunfoGame;
 
 import TrunfoGame.*;
@@ -11,8 +6,8 @@ import java.awt.Color;
 import java.util.ArrayList;
 import javax.swing.ImageIcon;
 /**
- *
- * @author arthu
+ * @author arthur souza - 19102583
+ * @author william rodrigues - 19100835
  */
 public class MenuJogadores extends javax.swing.JFrame {
     private int numeroPlayers = 0;
