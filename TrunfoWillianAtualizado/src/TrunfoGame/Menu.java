@@ -1,12 +1,10 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package TrunfoGame;
 
 import javax.swing.ImageIcon;
-
+/**
+ * @author arthur souza - 19102583
+ * @author william rodrigues - 19100835
+ */
 public class Menu extends javax.swing.JFrame {
 
     public Menu() {
